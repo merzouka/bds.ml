@@ -42,17 +42,18 @@ class CombinedFeatureAdder(BaseEstimator, TransformerMixin):
       return X.assign(srate_to_drate=srate_to_drate)
 
 MODELS_PATH = os.environ.get('MODELS_PATH', './models/')
-PREPROCESS_MODELS_PATH = os.environ.get('PREPROCESS_MODELS_PATH', f'./{MODELS_PATH}/preprocess')
+PREPROCESS_MODELS_PATH = os.environ.get('PREPROCESS_MODELS_PATH', f'./{MODELS_PATH}/yes-pre')
+NO_PREPROCESS_MODELS_PATH = os.environ.get('NO_PREPROCESS_MODELS_PATH', f'./{MODELS_PATH}/no-pre')
 ORIGINAL_MODELS_PATH = os.environ.get('ORIGINAL_MODELS_PATH', f'./{MODELS_PATH}/preprocess')
 
 models = {
-    # 'logisitc_regression_preprocess': {
-    #     'name': 'Logistic Regression with Preprocessing',
-    #     'path': f'{PREPROCESS_MODELS_PATH}/linear_regression.joblib',
-    # },
     'random_forest_preprocess': {
         'name': 'Random Forest with Preprocessing',
         'path': f'{PREPROCESS_MODELS_PATH}/random_forest.joblib',
+    },
+    'gmm_no_preprocess': {
+        'name': 'Random Forest with Preprocessing',
+        'path': f'{NO_PREPROCESS_MODELS_PATH}/gmm_model.joblib',
     },
 }
 
@@ -81,3 +82,4 @@ sample_df = pd.DataFrame({
 
 print(sample_df)
 print(models['random_forest_preprocess']['model'].predict(sample_df))
+print(models['gmm_no_preprocess']['model'].predict(sample_df))
