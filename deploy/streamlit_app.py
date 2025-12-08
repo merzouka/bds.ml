@@ -1,6 +1,14 @@
+import sys
+from pathlib import Path
+
+# Add the parent directory (botnetds/) to Python path
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(parent_dir))
+
 import streamlit as st
 import pandas as pd
 import ipaddress
+import .models
 
 
 st.set_page_config(layout="wide")
