@@ -38,26 +38,43 @@ The `preprocess` folder contains the notebook with different preprocessing techn
 
 # Results
 <details>
-<summary>K-Nearest Neigbours</summary>
-![K-Nearest Neigbours Results](./results/knn.jpg "K-Nearest Neigbours Results")
+<summary>K-Nearest Neighbours</summary>
+
+![K-Nearest Neighbours Results](./results/knn.jpg "K-Nearest Neighbours Results")
+
 </details>
+
 <details>
 <summary>XGBoost</summary>
+
 ![XGBoost Results](./results/xgboost.jpg "XGBoost Results")
+
 </details>
+
 <details>
-<summary>## Random Forest</summary>
+<summary>Random Forest</summary>
+
 ![Random Forest Results](./results/random_forest.jpg "Random Forest Results")
+
 </details>
+
 <details>
 <summary>K-Means</summary>
+
 ![K-Means Results](./results/kmeans.jpg "K-Means Results")
+
 </details>
+
 <details>
 <summary>Gaussian Mixture Model</summary>
+
 ![Gaussian Mixture Model Results](./results/gmm.jpg "Gaussian Mixture Model Results")
+
 </details>
+
 <details>
 <summary>BIRCH</summary>
+
 ![BIRCH Results](./results/birch.jpg "BIRCH Results")
+
 </details>
