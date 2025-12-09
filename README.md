@@ -37,3 +37,4 @@ The `eda` folder contains the notebook for Exploratory Data Analysis
 The `preprocess` folder contains the notebook with different preprocessing techniques tested
 
 # Results
+![K-Nearest Neigbours Results](./results/knn.jpg "K-Nearest Neigbours Results")
