@@ -37,4 +37,15 @@ The `eda` folder contains the notebook for Exploratory Data Analysis
 The `preprocess` folder contains the notebook with different preprocessing techniques tested
 
 # Results
+## K-Nearest Neigbours
 ![K-Nearest Neigbours Results](./results/knn.jpg "K-Nearest Neigbours Results")
+## XGBoost
+![XGBoost Results](./results/xgboost.jpg "XGBoost Results")
+## Random Forest
+![Random Forest Results](./results/random_forest.jpg"Random Forest Results")
+## K-Means
+![K-Means Results](./results/kmeans.jpg "K-Means Results")
+## Gaussian Mixture Model
+![Gaussian Mixture Model Results](./results/gmm.jpg "Gaussian Mixture Model Results")
+## BIRCH
+![BIRCH Results](./results/birch.jpg "BIRCH Results")
