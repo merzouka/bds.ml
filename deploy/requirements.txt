@@ -53,3 +53,6 @@ pytz==2025.2
 # Core Python utilities
 packaging==25.0
 six==1.17.0
+
+# Utilities
+gdown==5.2.0

@@ -23,10 +23,10 @@ def load_models():
         dict: Dictionary containing all loaded models with their metadata
     """
     models_config = {
-        # 'knn_with_preprocess': {
-        #     'name': 'KNN with Preprocessing',
-        #     'path': f'{PREPROCESS_MODELS_PATH}/knn.joblib',
-        # },
+        'knn_with_preprocess': {
+            'name': 'KNN with Preprocessing',
+            'path': f'{PREPROCESS_MODELS_PATH}/knn.joblib',
+        },
         # 'knn_no_preprocess': {
         #     'name': 'KNN without Preprocessing',
         #     'path': f'{NO_PREPROCESS_MODELS_PATH}/knn.joblib',
