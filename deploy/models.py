@@ -14,7 +14,7 @@ from deploy.base.utils import *
 GDRIVE_WITH_FOLDER_ID = "12R_m0PM9Tw-pqXlsjjD3ycXorKuM37Vf"
 GDRIVE_WITHOUT_FOLDER_ID = "1kH3NvLa0-mXL1mTEqA41ayqmba_3VWNL"
 
-MODELS_PATH = os.environ.get('MODELS_PATH', './dummy')
+MODELS_PATH = os.environ.get('MODELS_PATH', './models')
 PREPROCESS_MODELS_PATH = os.environ.get('PREPROCESS_MODELS_PATH', f'{MODELS_PATH}/yes-pre')
 NO_PREPROCESS_MODELS_PATH = os.environ.get('NO_PREPROCESS_MODELS_PATH', f'{MODELS_PATH}/no-pre')
 

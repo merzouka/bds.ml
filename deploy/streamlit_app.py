@@ -8,6 +8,8 @@ import streamlit as st
 import pandas as pd
 import ipaddress
 from deploy import models as models_module
+from deploy.base.pipelines import *
+from deploy.base.utils import *
 
 st.set_page_config(layout="wide")
 
