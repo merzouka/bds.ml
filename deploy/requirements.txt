@@ -56,3 +56,6 @@ six==1.17.0
 
 # Utilities
 gdown==5.2.0
+
+# Streamlit
+

@@ -1,15 +1,13 @@
 import sys
 from pathlib import Path
 
-# Add the parent directory (botnetds/) to Python path
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(parent_dir))
 
 import streamlit as st
 import pandas as pd
 import ipaddress
-import .models
-
+from deploy import models as models_module
 
 st.set_page_config(layout="wide")
 
@@ -21,10 +19,34 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+
+@st.cache_resource
+def load_all_models():
+    """Load all models once and cache them."""
+    with st.spinner("Loading models from storage..."):
+        return models_module.load_models()
+
+
+try:
+    MODELS = load_all_models()
+    if not MODELS:
+        st.error("⚠️ Failed to load models. Please check your configuration.")
+        st.stop()
+except Exception as e:
+    st.error(f"⚠️ Error loading models: {str(e)}")
+    st.stop()
+
+
 st.title("BotNet Intrusion Detection System")
 st.write(
     "This is a smart IDS for detecting the type of BotNet attack using properties of the network traffic"
 )
+
+# Display loaded models
+with st.expander("ℹ️ Loaded Models", expanded=False):
+    st.write(f"Successfully loaded **{len(MODELS)}** models:")
+    for model_key, model_info in MODELS.items():
+        st.write(f"- {model_info['name']}")
 
 ALLOWED_PROTOCOLS = ["udp", "tcp", "icmp", "arp", "ipv6-icmp"]
 
@@ -51,7 +73,6 @@ def validate_port(port_str):
         if port_str.lower().startswith("0x"):
             return int(port_str, 16)
         return int(port_str)
-
     except Exception:
         return None
 
@@ -155,6 +176,82 @@ if submitted:
     df = pd.DataFrame(data)
 
     st.subheader("Form Output (DataFrame)")
-    st.dataframe(df)
+    st.dataframe(df, use_container_width=True)
 
-    # model.predict(df)  <-- add later
+    # ---------- Model Predictions ----------
+    st.subheader("Model Predictions")
+    
+    # Progress bar for predictions
+    progress_bar = st.progress(0)
+    status_text = st.empty()
+    
+    predictions_data = []
+    total_models = len(MODELS)
+    
+    for idx, (model_key, model_info) in enumerate(MODELS.items()):
+        try:
+            status_text.text(f"Running {model_info['name']}...")
+            progress_bar.progress((idx + 1) / total_models)
+            
+            # Get numeric prediction
+            prediction = model_info['model'].predict(df)
+            prediction_value = prediction[0] if len(prediction) > 0 else None
+            
+            # Try to get category label
+            category = None
+            try:
+                if hasattr(model_info['model'], 'category'):
+                    categories = model_info['model'].category(prediction)
+                    category = categories[0] if len(categories) > 0 else "Unknown"
+            except Exception:
+                category = "N/A"
+            
+            predictions_data.append({
+                "Model": model_info['name'],
+                "Numeric Prediction": prediction_value,
+                "Category": category if category else "N/A"
+            })
+            
+        except Exception as e:
+            predictions_data.append({
+                "Model": model_info['name'],
+                "Numeric Prediction": "Error",
+                "Category": f"Error: {str(e)}"
+            })
+    
+    # Clear progress indicators
+    status_text.empty()
+    progress_bar.empty()
+    
+    # Display predictions as a table
+    predictions_df = pd.DataFrame(predictions_data)
+    st.dataframe(predictions_df, use_container_width=True)
+    
+    # Display individual predictions with color coding
+    st.markdown("---")
+    st.subheader("Detailed Predictions")
+    
+    cols = st.columns(2)
+    for idx, pred in enumerate(predictions_data):
+        col = cols[idx % 2]
+        with col:
+            with st.container():
+                st.markdown(f"**{pred['Model']}**")
+                
+                # Color code based on category
+                category = pred['Category']
+                if category == "Normal":
+                    color = "green"
+                elif "Error" in str(category):
+                    color = "orange"
+                elif category == "N/A":
+                    color = "gray"
+                else:
+                    color = "red"
+                
+                st.markdown(
+                    f"<span style='color:{color}; font-size:18px;'>"
+                    f"**{category}**</span> (Code: {pred['Numeric Prediction']})",
+                    unsafe_allow_html=True
+                )
+                st.markdown("---")
