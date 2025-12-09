@@ -90,6 +90,7 @@ class RandomForestNoPreprocPipeline(BaseModelPipeline):
     def fit_transform(self, X):
         out = X.drop(['saddr', 'daddr', 'seq'], axis=1)
         if self.encoder_ is None:
+            print('Hello there')
             # Need to load encoder separately
             raise ValueError('Encoder not loaded')
         feature_cat_cols = ["sport", "dport", "proto"]
@@ -105,33 +106,37 @@ class RandomForestNoPreprocPipeline(BaseModelPipeline):
 
 
 class XGBoostNoPreprocPipeline(BaseModelPipeline):
-    """XGBoost without preprocessing pipeline"""
-    def __init__(self) -> None:
-        self.categories = [
-            'DDoS TCP', 'DDoS UDP', 'DoS TCP', 'DoS UDP', 'Normal',
-            'Reconnaissance OS_Fingerprint', 'Reconnaissance Service_Scan', 'Theft'
-        ]
-        super().__init__('xgboost_model_final', False, True)
+  def __init__(self) -> None:
+    self.categories = ['DDoS TCP', 'DDoS UDP', 'DoS TCP', 'DoS UDP', 'Normal',
+       'Reconnaissance OS_Fingerprint', 'Reconnaissance Service_Scan',
+       'Theft']
+    self.encoder_ = None
+    super().__init__('xgboost_model_final', False, True)
 
-    def fit_transform(self, X: pd.DataFrame):
-        cols_processed = [
-            'proto', 'sport', 'dport', 'state_number',
-            'mean', 'stddev', 'min', 'max', 'srate', 'drate',
-            'N_IN_Conn_P_SrcIP', 'N_IN_Conn_P_DstIP'
-        ]
-        out = X[cols_processed].copy()
-        for col in ['sport', 'dport']:
-            out[col] = pd.to_numeric(out[col], errors='coerce').fillna(0)
-        out = pd.get_dummies(out, columns=['proto'], drop_first=True)
-        return out
+  def fit_transform(self, X: pd.DataFrame):
+    cols_processed = [
+        'proto', 'sport', 'dport', 'state_number',
+        'mean', 'stddev', 'min', 'max', 'srate', 'drate',
+        'N_IN_Conn_P_SrcIP', 'N_IN_Conn_P_DstIP'
+    ]
+    out = X[cols_processed].copy()
+    for col in ['sport', 'dport']:
+        out[col] = pd.to_numeric(out[col], errors='coerce').fillna(0)
 
-    def encode_label(self, y):
-        if 'category' in y.columns:
-            return y['category'].map(lambda l: self.categories.index(l))
+    if self.encoder_ is None:
+      self.encoder_ = ColumnTransformer([
+          ('encode', OneHotEncoder(drop='first'), ['proto'])
+      ], remainder='passthrough').fit(out)
+    # out = pd.get_dummies(out, columns=['proto'], drop_first=True)
+    out = self.encoder_.transform(out)
+    return out
 
-    def category(self, encoded):
-        return np.array(list(map(lambda e: self.categories[e], encoded)))
+  def encode_label(self, y):
+    if 'category' in y.columns:
+      return y['category'].map(lambda l: self.categories.index(l))
 
+  def category(self, encoded):
+    return np.array(list(map(lambda e: self.categories[e], encoded)))
 
 class KNNNoPreprocPipeline(BaseModelPipeline):
     """KNN without preprocessing pipeline"""

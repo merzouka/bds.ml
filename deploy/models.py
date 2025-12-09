@@ -23,18 +23,18 @@ models_config = {
         'name': 'KNN with Preprocessing',
         'path': f'{PREPROCESS_MODELS_PATH}/knn.joblib',
     },
-    # 'knn_no_preprocess': {
-    #     'name': 'KNN without Preprocessing',
-    #     'path': f'{NO_PREPROCESS_MODELS_PATH}/knn.joblib',
-    # },
-    # 'xgboost_with_preprocess': {
-    #     'name': 'XGBoost with Preprocessing',
-    #     'path': f'{PREPROCESS_MODELS_PATH}/xgboost.joblib',
-    # },
-    # 'xgboost_no_preprocess': {
-    #     'name': 'XGBoost without Preprocessing',
-    #     'path': f'{NO_PREPROCESS_MODELS_PATH}/xgboost.joblib',
-    # },
+    'knn_no_preprocess': {
+        'name': 'KNN without Preprocessing',
+        'path': f'{NO_PREPROCESS_MODELS_PATH}/knn.joblib',
+    },
+    'xgboost_with_preprocess': {
+        'name': 'XGBoost with Preprocessing',
+        'path': f'{PREPROCESS_MODELS_PATH}/xgboost.joblib',
+    },
+    'xgboost_no_preprocess': {
+        'name': 'XGBoost without Preprocessing',
+        'path': f'{NO_PREPROCESS_MODELS_PATH}/xgboost.joblib',
+    },
     'random_forest_with_preprocess': {
         'name': 'Random Forest with Preprocessing',
         'path': f'{PREPROCESS_MODELS_PATH}/random_forest.joblib',
