@@ -3,7 +3,7 @@ This is the source code for a BotNet Attack detection system for the ML &amp; DM
 you can find the models [here](https://drive.google.com/drive/folders/1KgSjJ8GBlC59LknNQmc5ok4_kdta04Al?usp=sharing), 
 and the source code for the **BIRCH** model [here](https://github.com/AbdennourBELKACEM/MLmini-project-BIRCH-clustering)
 
-The data set we used for training the different models, is somewhat big with over 3 million instances 
+The data set we used for training the different models, is somewhat large with over 3 million instances 
 and 15 features, you can find the source [here](research.unsw.edu.au/projects/bot-iot-dataset).
 
 You can find a summary report [here](https://profuse-food-75b.notion.site/Network-Intrusion-Detection-System-NIDS-using-BoT-IoT-2be2617efa3e8066b22cec218f754820?pvs=73)
